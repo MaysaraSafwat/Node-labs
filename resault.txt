@@ -1,1 +1,1 @@
- 
+   resault = undefined  resault = -10  resault = -5  resault = 0  resault = 54  resault = 54  resault = 9  resault = 4  resault = 4  resault = -6  resault = -6  resault = -6  resault = -14  resault = 0  resault = 1  resault = 13  resault = 35

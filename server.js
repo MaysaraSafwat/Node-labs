@@ -6,36 +6,49 @@ http.createServer(
     (req,res)=>{
         if(req.url!="/favicon.ico"){
             var arr = req.url.split("/");
-            //bonus1 - accepting mor than 2 numbers 
+            //bonus1 - accepting more than 2 numbers 
             var segmentedArr = arr.slice(2)
+            var arrToNumbers=[];
+            segmentedArr.forEach(e=>{
+                arrToNumbers.push(Number(e))
+            })
             console.log(segmentedArr)
             var resault;
             var i;
             switch(arr[1]){
                     case "add":
                         resault=0;
-                         segmentedArr.forEach(e=> resault+=Number(e))
+                         arrToNumbers.forEach(e=> resault+=Number(e))
                     break;
 
                     case "sub":
                         resault =0;
-                        let sortedNreversed = segmentedArr.sort().reverse()
-                        sortedNreversed.forEach(e=> resault-=e)
+                        let sortedNreversed = arrToNumbers.sort().reverse()
+                        console.log(sortedNreversed)
+                        sortedNreversed.forEach(e=> {
+                            console.log(sortedNreversed.indexOf(e)==0)
+                            if(sortedNreversed.indexOf(e)==0){
+                                resault = e
+                            }else{
+                                resault-=e
+                            }
+                            
+                            console.log(resault)
+                        })
                         
                     break;
                     case "div":
                         resault =1;
-                        segmentedArr.forEach(e=> resault /= Number(e))
+                        arrToNumbers.forEach(e=> resault /= e)
                     break;
                     case "mult":
                         resault=1;
-                        segmentedArr.forEach(e=> resault *= Number(e))
+                        arrToNumbers.forEach(e=> resault *= e)
                     break;
 
             }
 
             //bonus2 - writing resault in file
-           console.log(resault);
            fs.appendFileSync("resault.txt", `  resault = ${resault}`);
         }
         res.end(`<h1> Resault is ${resault}</h1>`)
