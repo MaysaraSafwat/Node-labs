@@ -56,9 +56,9 @@ http.createServer((req,res)=>{
                let pairs= element.split("=")
                values.push(pairs[1])
             });
-            user.name = values[0]
-            user.email = values[1]
-            user.address = values[2]
+            user.name = decodeURIComponent(values[0])
+            user.email = decodeURIComponent(values[1])
+            user.address = decodeURIComponent(values[2].replaceAll("+", " "))
             user.number = values[3]
             users.push(user)
             console.log(users);
