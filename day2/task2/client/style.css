@@ -15,7 +15,7 @@ form {
 }
 h1, h3{
     margin: 2%;
-    color: #1abc9ccc;
+    color: grey;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     background-color: transparent;
 }
@@ -42,7 +42,17 @@ div{
     padding: 5% 5%;
     border: none;
     border-radius: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+h3{
+    margin: 5% 0;
+    border-bottom: 2px solid lightgray;
+    padding: 2% 0;
+}
+span:first-of-type{
+    display: inline;
 }
 span {
-    color : gray
+    display: block;
+    color: #1abc9ccc;
 }
