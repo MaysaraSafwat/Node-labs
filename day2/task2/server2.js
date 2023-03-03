@@ -5,7 +5,8 @@ let mainHTML= fs.readFileSync("./client/main.html").toString();
 let welcomeHTML = fs.readFileSync("./client/welcom.html").toString();
 let styleCSS = fs.readFileSync("./client/style.css").toString();
 let fIcon = fs.readFileSync("./client/favicon.ico");
-
+let JSONFile = fs.readFileSync("clients.json").toString();
+//fs.appendFileSync("resault.txt", `  resault = ${resault}`);
 
 let name
 let address
@@ -22,6 +23,7 @@ var user = {
 http.createServer((req,res)=>{
     //#region GET
     if(req.method == "GET"){
+        console.log(req.url)
             switch(req.url){
                 case "/main.html":
                     res.setHeader("Access-Control-Allow-Origin","*");
@@ -40,6 +42,11 @@ http.createServer((req,res)=>{
                     res.writeHead(200,"ok",{"content-type":"image/vnd.microsoft.icon"})
                     res.write(fIcon)
                 break;
+                case "/clients.json":
+                    console.log("request is here ")
+                    res.writeHead(200,"Ok",{"content-type":"application/json"})
+                    res.write(JSONFile)
+                    break;
                 default:
                     res.write("<h1>No Page Found</h1>")
                 break;
@@ -49,30 +56,41 @@ http.createServer((req,res)=>{
     // //#endregion
     // //#region POST
     else if(req.method == "POST"){//url
-        req.on("data",(data)=>{
-            let values =[];
-            let dataString = data.toString().split("&")
-            dataString.forEach(element => {
-               let pairs= element.split("=")
-               values.push(pairs[1])
-            });
-            user.name = decodeURIComponent(values[0])
-            user.email = decodeURIComponent(values[1])
-            user.address = decodeURIComponent(values[2].replaceAll("+", " "))
-            user.number = values[3]
-            users.push(user)
-            console.log(users);
-            
-        })
-        req.on("end",()=>{
-            console.log("on end here ")
-            welcomeHTML = welcomeHTML.replace("{name}",user.name)
-            welcomeHTML = welcomeHTML.replace("{address}",user.address)
-            welcomeHTML = welcomeHTML.replace("{email}",user.email)
-            welcomeHTML = welcomeHTML.replace("{number}",user.number)
-             res.write(welcomeHTML);
-            res.end();
-        })
+            console.log(req.url)
+            req.on("data",(data)=>{
+                let values =[];
+                let dataString = data.toString().split("&")
+                dataString.forEach(element => {
+                   let pairs= element.split("=")
+                   values.push(pairs[1])
+                });
+                user.name = decodeURIComponent(values[0].replaceAll("+", " "))
+                user.email = decodeURIComponent(values[1])
+                user.address = decodeURIComponent(values[2].replaceAll("+", " "))
+                user.number = values[3]
+                users.push(user)
+                console.log(user);
+
+            fs.readFile('clients.json', function (err, data) {
+                var json = JSON.parse(data)
+                json.push(user)
+
+                fs.writeFileSync("clients.json", JSON.stringify(json));
+            })
+            })
+            req.on("end",()=>{
+                console.log("on end here ")
+                welcomeHTML = welcomeHTML.replace("{name}",user.name)
+                welcomeHTML = welcomeHTML.replace("{address}",user.address)
+                welcomeHTML = welcomeHTML.replace("{email}",user.email)
+                welcomeHTML = welcomeHTML.replace("{number}",user.number)
+                 res.write(welcomeHTML);
+                res.end();
+            })
+
+        
+
+
     }
     // //#endregion
     // //#region PUT
