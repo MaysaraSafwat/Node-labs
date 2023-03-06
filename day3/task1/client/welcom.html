@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+            .container{
+            padding: 3%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-around;
+        }
+        div{
+            width:20%;
+            text-align: center;
+            background-color: lavender;
+            padding: 3% 2%;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            border-radius: 20px;
+            margin: 3%;
+        }
+        img {
+            border-radius: 50%;
+            margin-bottom: 3%;
+        }
+        p{
+            margin-top: 3%;
+            border-top: 1px solid rgb(164, 164, 164);
+            padding: 5% 3%;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+    
+        <h1>Welcome <span>{name}</span></h1>
+        <div>
+            <h3>Your number:  <span>{number}</span></h3>
+            <h3>Your email: <span>{email}</span></h3>
+            <h3>Your Address: <span>{address}</span></h3>
+        </div>
+           
+            <input id="getbtn" type="submit" value="Get All Clients"/>
+     <section class="container">
+
+     </section>
+ 
+    <script>
+let getClients = document.getElementById("getbtn")
+        getClients.addEventListener('click', ()=>{
+            let clients = []
+        getData().then(data=>{
+          clients= JSON.parse(data)
+          clients.forEach(element => {
+            createClient(element)
+          });
+            });
+ });
+
+ function createClient (client) {
+    let page = document.getElementsByTagName("section")[0]  
+          let usercard = document.createElement("div")
+          let clientName = document.createElement("p")
+          let clientAdd = document.createElement("p")
+          let clientNum = document.createElement("p")
+          clientName.innerHTML =` ${client.name}`
+          clientAdd.innerHTML =` ${client.address}`
+          clientNum.innerHTML =` ${client.number}`
+          usercard.append(clientName)
+          usercard.append(clientAdd);
+          usercard.append(clientNum)
+          page.append(usercard)
+ }
+
+ async function getData(){
+
+        let response = await fetch('../sever/clients.json'); 
+        let fetchedData = await response.text();  
+    //   fetchedData.map(e=>{
+    //     console.log(e)
+    //   })
+    return fetchedData;
+}
+    </script>
+</body>
+</html>

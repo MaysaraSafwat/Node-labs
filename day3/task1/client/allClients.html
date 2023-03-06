@@ -1,0 +1,22 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body onload="fetchData()">
+<script>
+    alert("here");
+async function fetchData(){
+
+let response = await fetch('../clients.json');   //Fetch Data From JSON File
+let fetchedData = await response.text();  
+let  clients = JSON.parse(fetchedData).clients; //Convert Responsed Data
+
+console.log(clients);
+}
+</script>
+</body>
+</html>
