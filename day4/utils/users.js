@@ -6,7 +6,7 @@ function join (id, username){
 }
 
 function findUser (id){
-    return users.find(u=> u.id= id)
+    return users.find(u=> u.id== id)
 }
 function userLeaves (id){
   let user = users.find(u=> u.id == id)
